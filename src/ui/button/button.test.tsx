@@ -2,7 +2,7 @@ import React from "react";
 
 import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
-import Button from "./index";
+import Button from "./button";
 
 describe("Button", () => {
   it("renders button with prefix and children", () => {
