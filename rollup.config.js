@@ -3,7 +3,7 @@ import nodeResolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import typescript from "@rollup/plugin-typescript";
 import terser from "@rollup/plugin-terser";
-import dts from "rollup-plugin-dts";
+import { dts } from "rollup-plugin-dts";
 import postcss from "rollup-plugin-postcss";
 
 const packageJson = require("./package.json");
@@ -29,7 +29,12 @@ export default [
       commonjs(),
       typescript({ tsconfig: "./tsconfig.json" }),
       terser(),
-      postcss(),
+      postcss({
+        extensions: [".css"],
+        extract: true,
+        inject: false,
+        minimize: true,
+      }),
     ],
     external: ["react", "react-dom"],
   },
@@ -41,7 +46,7 @@ export default [
         format: "esm",
       },
     ],
-    plugins: [dts.default()],
+    plugins: [dts()],
     external: [/\.css/],
   },
 ];

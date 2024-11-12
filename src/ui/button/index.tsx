@@ -1,16 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { cn } from "../utils";
+import clsx from "clsx";
+
+import "../../tailwindcss.css";
 
 interface ButtonProps {
   children: React.ReactNode;
   href?: string;
   size?: "lg" | "md" | "sm";
-  rounded?: string;
   full?: boolean;
   prefix?: React.ReactNode;
   suffix?: React.ReactNode;
-  primary?: true;
+  primary?: boolean;
   onClick?: (
     event: React.MouseEvent<HTMLButtonElement>,
   ) => void | Promise<void>;
@@ -34,7 +35,6 @@ const Button = React.forwardRef<
       primary,
       onClick,
       disabled,
-      rounded = "md",
       type = "button",
       className,
       ...etc
@@ -49,16 +49,16 @@ const Button = React.forwardRef<
       forwardRef,
       () => ref.current as HTMLButtonElement | HTMLAnchorElement,
     );
-    const cl = cn(
-      `flex items-center justify-center transition duration-200 font-medium border select-none rounded-${rounded}`,
+    const cl = clsx(
+      `flex items-center justify-center transition duration-200 font-medium border select-none rounded-md`,
       {
         "text-gray-900 border bg-background-100 hover:text-foreground hover:bg-gray-alpha-200":
           primary,
         "text-gray-500 border-gray-200 bg-gray-1000 hover:text-background-100 hover:bg-button-invert-hover":
           !primary,
+        "text-xs h-8 px-1.5": size === "sm",
         "px-2.5 h-10 text-sm": size === "md",
         "px-3.5 h-12": size === "lg",
-        "text-sm h-8 px-1.5": size === "sm",
         "w-full": full,
         "w-fit": !full,
         "data-[highlighted]:text-foreground data-[highlighted]:bg-gray-alpha-200":
@@ -73,6 +73,7 @@ const Button = React.forwardRef<
       className,
     );
     const commonAttributed = {
+      "data-testid": "button",
       "data-highlighted": !disabled && hovering ? true : null,
       className: cl,
       onMouseEnter: () => !disabled && setHovering(true),
@@ -106,4 +107,5 @@ const Button = React.forwardRef<
   },
 );
 
+Button.displayName = "Button";
 export default Button;

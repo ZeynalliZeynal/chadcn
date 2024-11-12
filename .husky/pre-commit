@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# run tests before commit
+pnpm test
+
+# run build before commit
+pnpm build
+
+# run lint before commit
+pnpm lint
