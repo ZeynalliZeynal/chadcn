@@ -1,12 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import clsx from "clsx";
 
 import "../../tailwindcss.css";
 
 interface ButtonProps {
   children: React.ReactNode;
-  href?: string;
   size?: "lg" | "md" | "sm";
   full?: boolean;
   prefix?: React.ReactNode;
@@ -20,16 +18,12 @@ interface ButtonProps {
   className?: string;
 }
 
-const Button = React.forwardRef<
-  HTMLButtonElement | HTMLAnchorElement,
-  ButtonProps
->(
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       children,
       size = "md",
       full = false,
-      href,
       prefix = null,
       suffix = null,
       primary,
@@ -42,13 +36,6 @@ const Button = React.forwardRef<
     forwardRef,
   ) => {
     const [hovering, setHovering] = React.useState(false);
-    const ref = React.useRef<HTMLButtonElement | HTMLAnchorElement | null>(
-      null,
-    );
-    React.useImperativeHandle(
-      forwardRef,
-      () => ref.current as HTMLButtonElement | HTMLAnchorElement,
-    );
     const cl = clsx(
       `flex items-center justify-center transition duration-200 font-medium border select-none rounded-md`,
       {
@@ -80,30 +67,18 @@ const Button = React.forwardRef<
       onMouseLeave: () => !disabled && setHovering(false),
     };
 
-    if (href)
-      return (
-        <Link
-          ref={ref as React.MutableRefObject<HTMLAnchorElement>}
-          to={href}
-          {...commonAttributed}
-          {...etc}
-        >
-          {prefix} <span className="px-1.5">{children}</span> {suffix}
-        </Link>
-      );
-    else
-      return (
-        <button
-          ref={ref as React.MutableRefObject<HTMLButtonElement>}
-          type={type}
-          onClick={onClick}
-          disabled={disabled}
-          {...commonAttributed}
-          {...etc}
-        >
-          {prefix} <span className="px-1.5">{children}</span> {suffix}
-        </button>
-      );
+    return (
+      <button
+        ref={forwardRef}
+        type={type}
+        onClick={onClick}
+        disabled={disabled}
+        {...commonAttributed}
+        {...etc}
+      >
+        {prefix} <span className="px-1.5">{children}</span> {suffix}
+      </button>
+    );
   },
 );
 

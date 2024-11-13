@@ -36,7 +36,6 @@ export const Default: Story = {
     full: false,
     primary: true,
     disabled: false,
-    href: "",
     prefix: null,
     type: "button",
   },
@@ -91,13 +90,6 @@ export const WithSuffix: Story = {
   },
 };
 
-export const AsLink: Story = {
-  args: {
-    ...Default.args,
-    href: "/example",
-  },
-};
-
 export const AllVariants: Story = {
   render: () => (
     <div className="space-y-4">
@@ -121,9 +113,6 @@ export const AllVariants: Story = {
         <Button suffix={<FaChevronRight className="w-4 h-4" />}>
           With Suffix
         </Button>
-      </div>
-      <div>
-        <Button href="/example">As Link</Button>
       </div>
     </div>
   ),
